@@ -22,12 +22,18 @@ export default function LoginPage() {
 
     const data = await res.json();
     if (!res.ok) {
-      toast.error('Erro ao Logar');
+      toast.error('Algo deu errado, tente novamente!');
       return;
     }
 
-    localStorage.setItem('token', data.token);
-    router.push('/dashboard');
+    if (res.ok) {
+      toast.success('Sucesso ao Logar!');
+      setTimeout(() => {
+        localStorage.setItem('token', data.token);
+        router.push('/dashboard');
+      }, 2000);
+      return;
+    }
   };
 
   return (

@@ -34,8 +34,19 @@ export default function RegisterPage() {
       return;
     }
 
-    localStorage.setItem('token', data.token);
-    router.push('/dashboard');
+     if (res.ok) {
+      toast.success('Sucesso ao Registrar!');
+
+      setTimeout(() => {
+        toast.success('Bem vindo!');
+      }, 1500) 
+
+      setTimeout(() => {
+        localStorage.setItem('token', data.token);
+        router.push('/dashboard');
+      }, 4000);
+      return;
+    }
   };
 
   return (

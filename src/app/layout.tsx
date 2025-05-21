@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import { Montserrat } from 'next/font/google';
@@ -7,7 +7,7 @@ import { Montserrat } from 'next/font/google';
 const montserrat = Montserrat({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-montserrat',       
+  variable: '--font-montserrat',
 });
 
 const geistMono = Geist_Mono({
@@ -31,7 +31,16 @@ export default function RootLayout({
         className={`${montserrat.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-      <Toaster position="top-center" />
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 5000,
+            style: {
+              background: '#333',
+              color: '#fff',
+            },
+          }}
+        />
       </body>
     </html>
   );
