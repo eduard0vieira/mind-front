@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import { Montserrat } from 'next/font/google';
+import { AuthProvider } from '@/context/AuthContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -22,9 +23,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={montserrat.variable}>
-      <body
-        className="font-medium"
-      >
+      <body className="font-medium">
+        <AuthProvider>
         {children}
         <Toaster
           position="top-right"
@@ -36,6 +36,7 @@ export default function RootLayout({
             },
           }}
         />
+        </AuthProvider>
       </body>
     </html>
   );

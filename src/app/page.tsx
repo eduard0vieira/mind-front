@@ -20,12 +20,47 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch('http://localhost:8000/api/articles');
-      const data = await res.json();
+      const res = await fetch('http://localhost:8000/articles');
+      const data: Array<{
+        id: number;
+        title: string;
+        content: string;
+        image?: string;
+        author: { name: string };
+        createdAt: string;
+      }> = await res.json();
 
-      setFeatured(data.featured);
-      setNews(data.news);
-      setHighlights(data.highlights);
+      if (data.length === 0) return;
+
+      const first = data[0];
+      setFeatured({
+        id: first.id,
+        title: first.title,
+        subtitle: undefined,
+        date: new Date(first.createdAt).toLocaleDateString(),
+        author: first.author.name,
+        image: first.image ?? '/images/user.png',
+      });
+
+      const newsSlice = data.slice(1, 4).map(a => ({
+        id: a.id,
+        title: a.title,
+        subtitle: a.content.slice(0, 60) + '...',
+        date: '',
+        author: a.author.name,
+        image: a.image ?? '/images/user.png',
+      }));
+      setNews(newsSlice);
+
+      const highlightsSlice = data.slice(4, 7).map((a) => ({
+        id: a.id,
+        title: a.title,
+        subtitle: undefined,
+        date: new Date(a.createdAt).toLocaleDateString(),
+        author: a.author.name,
+        image: a.image ?? '/images/user.png',
+      }));
+      setHighlights(highlightsSlice);
     }
 
     fetchData();
@@ -39,10 +74,20 @@ export default function Home() {
         <div className="w-2/3">
           {featured && (
             <div>
-              <Image src={featured.image} alt={featured.title} width={800} height={450} className="w-full h-auto object-cover rounded-md" />
+              <Image
+                src={featured.image}
+                alt={featured.title}
+                width={800}
+                height={450}
+                className="w-full h-auto object-cover rounded-md"
+              />
               <h1 className="text-2xl font-bold mt-4">{featured.title}</h1>
-              <p className="text-sm text-gray-500 mt-1">Por {featured.author} - {featured.date}</p>
-              <button className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md">Ler Mais</button>
+              <p className="text-sm text-gray-500 mt-1">
+                Por {featured.author} - {featured.date}
+              </p>
+              <button className="mt-4 bg-red-600 text-white px-4 py-2 rounded-md">
+                Ler Mais
+              </button>
             </div>
           )}
         </div>
@@ -50,7 +95,7 @@ export default function Home() {
         <div className="w-1/3 bg-black text-white p-4 rounded-md">
           <h2 className="text-xl font-semibold mb-4">New</h2>
           <ul className="space-y-4">
-            {news.map((article) => (
+            {news.map(article => (
               <li key={article.id}>
                 <h3 className="font-bold">{article.title}</h3>
                 <p className="text-sm text-gray-300">{article.subtitle}</p>
@@ -63,8 +108,16 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
         {highlights.map((item, index) => (
           <div key={item.id}>
-            <Image src={item.image} alt={item.title} width={400} height={200} className="w-full h-auto object-cover rounded-md" />
-            <h2 className="text-5xl font-bold mt-4">{String(index + 1).padStart(2, '0')}</h2>
+            <Image
+              src={item.image}
+              alt={item.title}
+              width={400}
+              height={200}
+              className="w-full h-auto object-cover rounded-md"
+            />
+            <h2 className="text-5xl font-bold mt-4">
+              {String(index + 1).padStart(2, '0')}
+            </h2>
             <p className="font-semibold mt-2">{item.title}</p>
             <p className="text-sm text-gray-600">{item.date}</p>
           </div>
