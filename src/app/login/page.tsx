@@ -35,7 +35,7 @@ export default function LoginPage() {
 
       setTimeout(() => {
         localStorage.setItem('token', data.token);
-        router.push('/dashboard');
+        router.push('/');
       }, 2000);
       return;
     }
@@ -63,7 +63,7 @@ export default function LoginPage() {
         />
 
         <div className="text-right text-sm text-gray-500 mb-4">
-          <a href="#">Esqueceu a senha?</a>
+          <a href="/forgot">Esqueceu a senha?</a>
         </div>
 
         <Button type="submit">Entrar</Button>
