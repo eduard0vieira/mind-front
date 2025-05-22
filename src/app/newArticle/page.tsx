@@ -5,6 +5,12 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Navbar from '../../components/Navbar';
 import toast from 'react-hot-toast';
+import { jwtDecode } from 'jwt-decode';
+
+interface JwtPayload {
+  id: number;
+  sub: number;
+}
 
 export default function NewArticlePage() {
   const [title, setTitle] = useState('');
@@ -28,12 +34,17 @@ export default function NewArticlePage() {
     }
   };
 
-  const handleCancel = () => {
+  const clearForm = () => {
     setTitle('');
     setImage('');
     setContent('');
     setImagePreview('');
     setFileName('');
+  };
+
+  const handleCancel = () => {
+    clearForm();
+    router.push('/');
   };
 
   const handleSave = async () => {
@@ -42,17 +53,30 @@ export default function NewArticlePage() {
       return;
     }
 
-    const token = localStorage.getItem('token'); // ← Pegando o token de autenticação
+    const token = localStorage.getItem('token');
     if (!token) {
-      toast.error('Usuário não autenticado.');
+      toast.error('Você precisa estar logado para criar um artigo.');
       return;
     }
+
+    let userId;
+    try {
+      const decoded = jwtDecode<JwtPayload>(token);
+      console.log(decoded);
+      userId = decoded.sub;
+    } catch (err) {
+      toast.error('Token inválido.');
+      console.log(err);
+      return;
+    }
+
+    console.log('UserId decoded:', userId);
 
     const article = {
       title,
       content,
       image,
-      authorId: 1,
+      authorId: Number(userId),
     };
 
     try {
@@ -60,21 +84,22 @@ export default function NewArticlePage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(article),
       });
 
       if (res.ok) {
-        toast.success('Artigo salvo com sucesso!');
+        toast.success('Artigo criado com sucesso!');
+        clearForm();
         router.push('/');
       } else {
-        const error = await res.json();
-        toast.error(error.message || 'Erro ao salvar o artigo.');
+        const data = await res.json();
+        toast.error(data.error || 'Erro ao criar o artigo.');
       }
-    } catch (err) {
+    } catch (error) {
       toast.error('Erro de conexão com o servidor.');
-      console.log(err);
+      console.log(error);
     }
   };
 

@@ -45,10 +45,8 @@ export default function Navbar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Base da URL atual (http://localhost:3000 ou o que for)
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
-
-  // Escolhe a URL da imagem: a do usuário ou o default em public/images/user.png
+  
   const avatarSrc = user?.image
     ? user.image
     : `${origin}/images/user.png`;
@@ -85,7 +83,6 @@ export default function Navbar() {
               Publicar
             </Link>
 
-            {/* Avatar sempre exibido quando logado */}
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setShowDropdown(prev => !prev)}>
                 <Image
