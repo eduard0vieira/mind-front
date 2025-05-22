@@ -36,7 +36,6 @@ export default function Home() {
       <Navbar />
 
       <section className="max-w-6xl mx-auto px-4 py-8 flex gap-8">
-        {/* Destaque */}
         <div className="w-2/3">
           {featured && (
             <div>
@@ -48,7 +47,6 @@ export default function Home() {
           )}
         </div>
 
-        {/* News lateral */}
         <div className="w-1/3 bg-black text-white p-4 rounded-md">
           <h2 className="text-xl font-semibold mb-4">New</h2>
           <ul className="space-y-4">
@@ -62,7 +60,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Destaques numerados */}
       <section className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-3 gap-8">
         {highlights.map((item, index) => (
           <div key={item.id}>

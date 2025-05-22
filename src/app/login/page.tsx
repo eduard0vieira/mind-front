@@ -28,6 +28,11 @@ export default function LoginPage() {
 
     if (res.ok) {
       toast.success('Sucesso ao Logar!');
+
+      setTimeout(() => {
+        toast.success('Bem vindo!');
+      }, 1500)
+
       setTimeout(() => {
         localStorage.setItem('token', data.token);
         router.push('/dashboard');

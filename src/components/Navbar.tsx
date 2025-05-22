@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Navbar() {
   return (
-    <header className="flex justify-between items-center max-w-6xl mx-auto px-4 py-4 border-b">
+    <header className="font-medium flex justify-between items-center max-w-6xl mx-auto px-4 py-4">
       <div className="text-3xl font-bold">
         <Image src="/LogoMin.png" alt='Logo versão preta em miniatura' width={50} height={50} />
       </div>
@@ -12,7 +12,7 @@ export default function Navbar() {
         <Link href="/artigos">Artigos</Link>
         <span className="text-gray-400">|</span>
         <Link href="/login">Entrar</Link>
-        <Link href="/register" className="bg-black text-white px-4 py-2 rounded-md">Registrar</Link>
+        <Link href="/register" className="bg-black text-white px-4 py-2 rounded-lg">Registrar</Link>
       </nav>
     </header>
   );

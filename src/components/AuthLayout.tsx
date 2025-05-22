@@ -5,7 +5,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
   return (
     <main className="h-screen flex overflow-hidden">
       {/* esquerda */}
-      <div className="bg-black flex items-center justify-center w-[887px] h-full">
+      <div className="bg-black flex items-center justify-center w-[60vw] h-full">
         <Logo />
       </div>
 
