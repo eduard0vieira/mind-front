@@ -38,12 +38,11 @@ export default function RegisterPage() {
       toast.success('Sucesso ao Registrar!');
 
       setTimeout(() => {
-        toast.success('Bem vindo!');
-      }, 1500) 
-
-      setTimeout(() => {
+        toast.success('Por favor, faça o login');
         localStorage.setItem('token', data.token);
-        router.push('/dashboard');
+      }, 1500) 
+      setTimeout(() => {
+        router.push('/login');
       }, 4000);
       return;
     }
