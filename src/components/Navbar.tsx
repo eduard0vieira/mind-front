@@ -67,7 +67,7 @@ export default function Navbar() {
 
       <nav className="flex items-center gap-6 relative">
         <Link href="/">Home</Link>
-        <Link href="/artigos">Artigos</Link>
+        <Link href="/articles">Artigos</Link>
         <span className="text-gray-400">|</span>
 
         {!isLoggedIn ? (
@@ -83,7 +83,11 @@ export default function Navbar() {
               Publicar
             </Link>
 
-            <div className="relative" ref={dropdownRef}>
+             <Link href="/myArticles" className="text-black hover:text-gray-700">
+              Meus Artigos
+            </Link>
+
+            <div className="relative cursor-pointer" ref={dropdownRef}>
               <button onClick={() => setShowDropdown(prev => !prev)}>
                 <Image
                   src={avatarSrc}
